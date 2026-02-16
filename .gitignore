@@ -12,8 +12,14 @@ env/
 # Generated snippets (snippets/ folder kept via .gitkeep)
 snippets/*.html
 
+# Archiwum (stare snippety, testy – nie publikować)
+archive/
+
 # Local config (optional – user runs init-config)
 config.yaml
+
+# Streamlit
+.streamlit/secrets.toml
 
 # IDE
 .idea/

@@ -2,7 +2,7 @@
 
 from urllib.parse import urlparse
 
-BLOCKED_HOSTS = {"localhost", "127.0.0.1", "::1", "0.0.0.0", "[::1]"}
+BLOCKED_HOSTS = {"localhost", "::1", "0.0.0.0", "[::1]"}
 
 
 def validate_url(url: str) -> tuple[bool, str]:
@@ -16,6 +16,8 @@ def validate_url(url: str) -> tuple[bool, str]:
     h = (p.hostname or "").lower()
     if h in BLOCKED_HOSTS:
         return False, f"Blocked: {h}"
+    if h.startswith("127."):
+        return False, f"Blocked loopback: {h}"
     for pfx in ("10.", "192.168.", "169.254."):
         if h.startswith(pfx):
             return False, f"Private IP: {h}"

@@ -168,6 +168,10 @@ def cmd_batch(args: argparse.Namespace) -> int:
 
 
 def cmd_fetch(args: argparse.Namespace) -> int:
+    ok, reason = validate_url(args.url)
+    if not ok:
+        print(f"INVALID URL: {reason}", file=sys.stderr)
+        return 1
     cfg = _load_config(args.config)
     try:
         html = fetch_html(

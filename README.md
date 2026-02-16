@@ -15,7 +15,30 @@ Narzędzie pobiera stronę WWW, wyciąga metadane (tytuł, opis, fragment treśc
 - Strony statyczne
 - Automatyzacja (n8n, skrypty)
 
-## Instalacja
+## Środowisko od zera (venv)
+
+W katalogu projektu uruchom **jedną** z opcji:
+
+**Windows (PowerShell) – jedna komenda:**
+```powershell
+.\setup.ps1
+```
+Potem: `.venv\Scripts\Activate.ps1` i `streamlit run streamlit_app.py`.
+
+**Ręcznie (Windows):**
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+**Linux / macOS – jedna komenda:**
+```bash
+sh setup.sh
+```
+Potem: `source .venv/bin/activate` i `streamlit run streamlit_app.py`.
+
+## Instalacja (bez venv)
 
 ```bash
 pip install requests beautifulsoup4 lxml pyyaml
@@ -24,7 +47,6 @@ pip install requests beautifulsoup4 lxml pyyaml
 Opcjonalnie (instalacja pakietu z projektu):
 
 ```bash
-cd AI_buttons
 pip install -e .
 # Wtedy: ai-buttons generate -u https://example.com
 ```
@@ -88,6 +110,18 @@ python ai_buttons_gen.py interactive
 # lub
 python ai_buttons_gen.py wizard
 ```
+
+## Aplikacja Streamlit (web UI)
+
+Po zainicjowaniu venv i `pip install -r requirements.txt`:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+(Opcjonalnie: `python -m streamlit run streamlit_app.py`)
+
+Otwórz w przeglądarce adres podany w terminalu (zwykle http://localhost:8501). Wpisz URL, dostosuj ustawienia w panelu bocznym i pobierz wygenerowany HTML. Walidacja URL (SSRF) działa tak samo jak w CLI – adresy lokalne i sieci wewnętrzne są zablokowane.
 
 ## Dokumentacja
 
