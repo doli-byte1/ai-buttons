@@ -166,15 +166,79 @@ def render(
             f"</details>"
         )
 
+    lead_gate = getattr(cfg, "lead_gate_enabled", False) and getattr(cfg, "lead_submit_url", "").strip()
+    submit_url = html_mod.escape((cfg.lead_submit_url or "").strip(), quote=True) if lead_gate else ""
+
+    if lead_gate and submit_url:
+        lang = getattr(cfg, "lang", "pl")
+        is_pl = lang == "pl"
+        form_heading = cfg.lead_form_heading_pl if is_pl else cfg.lead_form_heading_en
+        email_label = cfg.lead_form_email_label_pl if is_pl else cfg.lead_form_email_label_en
+        name_label = cfg.lead_form_name_label_pl if is_pl else cfg.lead_form_name_label_en
+        submit_label = cfg.lead_form_submit_pl if is_pl else cfg.lead_form_submit_en
+        buttons_block = (
+            f"  <{tag} class=\"ais-h\">{html_mod.escape(heading_text)}</{tag}>"
+            f'  <div class="ais-g">'
+            f"    {''.join(buttons)}"
+            f"    {copy_part}"
+            f"  </div>"
+            f"  {raw_prompt_block}"
+        )
+        lead_form_html = (
+            f'<div class="ais-lead-form" style="margin-bottom:16px">'
+            f"  <p class=\"ais-h\" style=\"margin-bottom:10px\">{html_mod.escape(form_heading)}</p>"
+            f'  <form class="ais-lead-f" data-url="{submit_url}" style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">'
+            f'    <label style="flex:1;min-width:120px"><span style="display:block;font-size:12px;margin-bottom:4px">{html_mod.escape(email_label)}</span><input type="email" name="email" required style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px"></label>'
+            f'    <label style="flex:1;min-width:120px"><span style="display:block;font-size:12px;margin-bottom:4px">{html_mod.escape(name_label)}</span><input type="text" name="name" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px"></label>'
+            f'    <button type="submit" style="padding:8px 18px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;white-space:nowrap">{html_mod.escape(submit_label)}</button>'
+            f'  </form>'
+            f'  <p class="ais-lead-msg" style="font-size:13px;margin-top:8px;display:none"></p>'
+            f'</div>'
+            f'<div class="ais-buttons-wrap" style="display:none">'
+            f"  {buttons_block}"
+            f'</div>'
+        )
+        lead_js = (
+            "<script>(function(){"
+            "var f=document.querySelector('.ais-lead-f');"
+            "if(!f) return;"
+            "var wrap=f.closest('.ais-" + uid + "').querySelector('.ais-buttons-wrap');"
+            "var formDiv=f.closest('.ais-lead-form');"
+            "var msg=formDiv.querySelector('.ais-lead-msg');"
+            "f.addEventListener('submit',function(e){"
+            "e.preventDefault();"
+            "var btn=f.querySelector('button[type=submit]');"
+            "var orig=btn.textContent;"
+            "btn.disabled=true;"
+            "btn.textContent='...';"
+            "var fd=new FormData(f);"
+            "var body={email:fd.get('email')||'',name:fd.get('name')||''};"
+            "body.source_url=window.location.href;"
+            "fetch(f.getAttribute('data-url'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})"
+            ".then(function(r){return r.json().then(function(d){return {ok:r.ok,body:d};});})"
+            ".then(function(x){"
+            "btn.disabled=false;"
+            "btn.textContent=orig;"
+            "if(x.ok){formDiv.style.display='none';wrap.style.display='block';}else{msg.style.display='block';msg.textContent=x.body.detail||'Blad';msg.style.color='#dc2626';}"
+            "})"
+            ".catch(function(err){btn.disabled=false;btn.textContent=orig;msg.style.display='block';msg.textContent='Blad polaczenia';msg.style.color='#dc2626';});"
+            "});})();</script>"
+        )
+        inner_content = lead_form_html + lead_js
+    else:
+        inner_content = (
+            f"  <{tag} class=\"ais-h\">{html_mod.escape(heading_text)}</{tag}>"
+            f'  <div class="ais-g">'
+            f"    {''.join(buttons)}"
+            f"    {copy_part}"
+            f"  </div>"
+            f"  {raw_prompt_block}"
+        )
+
     html_parts = [
         css,
         f'<div class="ais-{uid}{extra_cls}">',
-        f"  <{tag} class=\"ais-h\">{html_mod.escape(heading_text)}</{tag}>",
-        f'  <div class="ais-g">',
-        f"    {''.join(buttons)}",
-        f"    {copy_part}",
-        f"  </div>",
-        raw_prompt_block,
+        inner_content,
         f"</div>",
         js,
     ]

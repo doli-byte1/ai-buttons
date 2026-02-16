@@ -75,6 +75,18 @@ class Config:
     # Output mode: links | copy | hybrid
     output_mode: str = "hybrid"
 
+    # Lead gate (formularz przed przyciskami AI -> zapis do Airtable przez backend)
+    lead_gate_enabled: bool = False
+    lead_submit_url: str = ""  # URL endpointu POST, np. https://twoja-domena.com/submit
+    lead_form_heading_pl: str = "Zostaw maila, odblokuj przyciski AI:"
+    lead_form_heading_en: str = "Leave your email to unlock AI buttons:"
+    lead_form_email_label_pl: str = "Email"
+    lead_form_email_label_en: str = "Email"
+    lead_form_name_label_pl: str = "Imię (opcjonalnie)"
+    lead_form_name_label_en: str = "Name (optional)"
+    lead_form_submit_pl: str = "Wyślij"
+    lead_form_submit_en: str = "Submit"
+
     @classmethod
     def _flatten_nested(cls, d: dict) -> dict:
         """Flatten nested config: {defaults: {lang: pl}, fetch: {timeout: 10}} -> {lang: pl, timeout: 10}"""

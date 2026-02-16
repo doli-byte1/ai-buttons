@@ -113,6 +113,8 @@ python ai_buttons_gen.py wizard
 
 ## Aplikacja Streamlit (web UI)
 
+**Wdrożenie na Streamlit Cloud:** [DEPLOY.md](DEPLOY.md) – krok po kroku + jak dodać sekrety (hasła do Airtable).
+
 Po zainicjowaniu venv i `pip install -r requirements.txt`:
 
 ```bash
@@ -122,6 +124,12 @@ streamlit run streamlit_app.py
 (Opcjonalnie: `python -m streamlit run streamlit_app.py`)
 
 Otwórz w przeglądarce adres podany w terminalu (zwykle http://localhost:8501). Wpisz URL, dostosuj ustawienia w panelu bocznym i pobierz wygenerowany HTML. Walidacja URL (SSRF) działa tak samo jak w CLI – adresy lokalne i sieci wewnętrzne są zablokowane.
+
+## Lead gate (zbieranie leadów do Airtable)
+
+Formularz (email, imię) przed przyciskami AI – użytkownik odblokowuje przyciski po wysłaniu danych. Leady trafiają do **Airtable**. Instrukcja: [docs/LEAD_AIRTABLE.md](docs/LEAD_AIRTABLE.md).
+
+**Test lokalny:** `python generate_test_leads.py` → `.\run_dev.ps1` → otwórz http://localhost:8080/test_leads.html
 
 ## Dokumentacja
 
