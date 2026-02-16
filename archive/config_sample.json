@@ -1,0 +1,19 @@
+{
+  "providers": ["chatgpt", "perplexity", "claude", "gemini"],
+  "lang": "pl",
+  "theme": "brand",
+  "max_url_len": 1900,
+  "max_excerpt": 600,
+  "max_desc": 300,
+  "timeout": 10,
+  "max_bytes": 3000000,
+  "copy_btn": true,
+  "icons": true,
+  "btn_style": "pill",
+  "heading_tag": "strong",
+  "heading_pl": "Przeanalizuj t\u0119 stron\u0119 w AI:",
+  "heading_en": "Analyze this page with AI:",
+  "link_type": "a",
+  "noindex_hide": false,
+  "css_class": ""
+}

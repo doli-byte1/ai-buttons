@@ -1,0 +1,8 @@
+Analyze this page: {canonical}
+Title: {title}
+Description: {description}
+Excerpt: {excerpt}
+
+1) Summarize key info in 5 bullet points.
+2) List main services/products and target audience.
+3) Suggest 3 questions a visitor should ask.

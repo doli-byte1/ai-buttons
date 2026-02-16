@@ -1,0 +1,43 @@
+defaults:
+  lang: pl
+  prompt_mode: injection  # wzor-like default
+  prompt_format: compact  # compact (ściana tekstu jak wzor, domyślne) | readable (czytelny)
+  hide_raw_prompt: true  # true: tylko przyciski; false: widoczny blok "Zobacz prompt"
+  max_url_len: 1900
+  max_excerpt: 600
+  max_desc: 300
+
+fetch:
+  timeout: 10
+  max_bytes: 3000000
+  user_agent: "Mozilla/5.0 (compatible; AIButtonsGen/3.0)"
+  allow_redirects: true
+
+extract:
+  main_selectors: [main, "[role='main']", article, .entry-content, .post-content, "#content"]
+  noise_tags: [nav, header, footer, aside, script, style, noscript, form]
+  noise_classes: [cookie, banner, popup, modal, sidebar, widget, menu]
+  min_paragraph_len: 60
+
+prompt:
+  template_pl_default: templates/prompt_pl_default.txt
+  template_pl_injection: templates/prompt_pl_injection.txt
+  template_en_default: templates/prompt_en_default.txt
+  template_en_injection: templates/prompt_en_injection.txt
+
+providers:
+  default: [chatgpt, perplexity, claude, gemini, grok, copilot, meta, deepseek, mistral, googleai]
+
+render:
+  heading_pl: "Przeanalizuj i cytuj treść przez sztuczną inteligencję:"
+  heading_en: "Analyze and cite content with AI:"
+  theme: brand
+  btn_style: pill
+  copy_btn: true
+  link_type: a
+  css_class: ""
+
+output:
+  dir: dist
+  report_file: report.json
+  mode: hybrid  # links | copy | hybrid

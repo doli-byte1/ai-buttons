@@ -1,0 +1,8 @@
+Przeanalizuj stronę: {canonical}
+Tytuł: {title}
+Opis: {description}
+Fragment treści: {excerpt}
+
+1) Streść główne informacje w 5 punktach.
+2) Wymień kluczowe usługi/produkty i grupę docelową.
+3) Zaproponuj 3 pytania, które warto zadać tej firmie.
